@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->enum('type',TypeCategory::values());
             $table->foreignId('user_id')->constrained();
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('icon');
             $table->timestamps();
         });

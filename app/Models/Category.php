@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Facades\Auth;
 
 class Category extends Model
 {
@@ -20,6 +21,17 @@ class Category extends Model
     protected $casts = [
         'type' => TypeCategory::class
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($categoria) {
+            if (Auth::check()) {
+                $categoria->user_id = Auth::id();
+            }
+        });
+    }
 
     public function user(): BelongsTo
     {
