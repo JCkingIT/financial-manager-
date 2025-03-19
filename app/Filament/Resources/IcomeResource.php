@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Enums\TypeCategory;
 use App\Filament\Resources\IcomeResource\Pages;
 use App\Filament\Resources\IcomeResource\RelationManagers;
+use App\Forms\Category;
 use App\Models\Icome;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -40,40 +41,13 @@ class IcomeResource extends Resource
                         'name',
                         fn($query) => $query->where('type', TypeCategory::ICOME)
                     )
-                    ->createOptionForm([
-                        Forms\Components\TextInput::make('name')
-                            ->label('Nombre')
-                            ->required()
-                            ->unique('categories', 'name'),
-                        Forms\Components\TextInput::make('type')
-                            ->label('Tipo')
-                            ->default(TypeCategory::ICOME)
-                            ->required()
-                            ->readOnly(),
-                        Forms\Components\Hidden::make('user_id')
-                            ->default(Auth::id())
-                            ->required()
-                            ->dehydrated(),
-                        Forms\Components\TextArea::make('description')
-                            ->label('Descripción')
-                            ->required(),
-                        Forms\Components\Select::make('icon')
-                            ->label('Ícono Representativo')
-                            ->options([
-                                'currency-dollar' => 'Dinero 💰',
-                                'arrow-up-circle' => 'Ingreso ⬆️',
-                                'banknotes' => 'Depósito 🏦',
-                                'chart-bar' => 'Gráfica 📈',
-                                'plus-circle' => 'Suma ➕',
-                            ])
-                            ->searchable(),
-                    ])
+                    ->createOptionForm(Category::form(TypeCategory::ICOME))
                     ->searchable()
                     ->preload()
                     ->required(),
                 Forms\Components\TextInput::make('amount')
                     ->label('Monto')
-                    ->placeholder('Dinero')
+                    ->placeholder('Cantidad de dinero')
                     ->required()
                     ->numeric()
                     ->prefix('S/.'),

@@ -30,6 +30,22 @@ class Expense extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function items()
+    {
+        return $this->hasMany(ExpenseItem::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($expense) {
+            if ($expense->items->isNotEmpty()) {
+                $expense->amount = $expense->items->sum('cost');
+            }
+        });
+    }
+
     public function audits(): MorphMany
     {
         return $this->morphMany(Audit::class, 'auditable');
