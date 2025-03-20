@@ -5,6 +5,8 @@ namespace App\Filament\Resources;
 use App\Enums\TypeCategory;
 use App\Filament\Resources\ExpenseResource\Pages;
 use App\Filament\Resources\ExpenseResource\RelationManagers;
+use App\Filament\Resources\ExpenseResource\Widgets\ExpenseStats;
+use App\Filament\Widgets\Chart\ExpenseChart;
 use App\Forms\Category;
 use App\Models\Expense;
 use Filament\Forms\Components\Actions\Action;
@@ -209,6 +211,13 @@ class ExpenseResource extends Resource
     {
         return [
             //
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            ExpenseStats::class,
         ];
     }
 
